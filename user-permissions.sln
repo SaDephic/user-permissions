@@ -5,7 +5,7 @@ VisualStudioVersion = 17.6.33712.159
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "user-permissions", "user-permissions\user-permissions.csproj", "{095B8795-C741-4E45-B25B-A3D97BC33D47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "user-permission.Data", "user-permission.Data\user-permission.Data.csproj", "{B37069FC-E769-4233-A8B6-6DF29C6407D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PSQLDBData", "user-permission.Data\PSQLDBData.csproj", "{B37069FC-E769-4233-A8B6-6DF29C6407D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -11,8 +11,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<user_permissionContext>(
-    o=> o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+/*builder.Services.AddDbContext<user_permissionContext>(
+    o=> o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));*/
 
 var app = builder.Build();
 
