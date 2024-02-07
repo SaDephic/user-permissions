@@ -6,15 +6,17 @@ EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["user-permissions/user-permissions.csproj", "user-permissions/"]
-RUN dotnet restore "user-permissions/user-permissions.csproj"
+RUN dotnet restore "./user-permissions/./user-permissions.csproj"
 COPY . .
 WORKDIR "/src/user-permissions"
-RUN dotnet build "user-permissions.csproj" -c Release -o /app/build
+RUN dotnet build "./user-permissions.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "user-permissions.csproj" -c Release -o /app/publish /p:UseAppHost=false
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./user-permissions.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
