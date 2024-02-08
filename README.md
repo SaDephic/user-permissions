@@ -4,49 +4,22 @@
 
 Команды сборки контейнера из каталога проекта (Windows):
 
--- сборка образа проекта
+./build.bat
 
-#Создание образа
-docker build  -f ".\user-permissions\Dockerfile"  --force-rm -t userpermissions  --build-arg "BUILD_CONFIGURATION=Release" ".\"
+или выполнить команды:
 
-#Создание контейнера
-docker run -dt -e "ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS=true" -e "ASPNETCORE_ENVIRONMENT=Development"  -p 21812:80 --name user-permissions  --entrypoint tail userpermissions  -f /dev/null
+docker-compose down --remove-orphans
+docker-compose build
+docker-compose up -d
 
 После сборки:
- GET: http://localhost:21812/usersRoles 
- 
- request: 
- [
-    {
-        "data": [
-            {
-                "id": "id",
-                "userLogin": "userLogin",
-                "_UserRole": "userRole"
-            },
-            {
-                "id": "id",
-                "userLogin": "userLogin",
-                "_UserRole": "userRole"
-            }
-        ]
-    },
-    {
-        "data": [
-            {
-                "id": "id",
-                "userLogin": "userLogin",
-                "_UserRole": "userRole"
-            },
-            {
-                "id": "id",
-                "userLogin": "userLogin",
-                "_UserRole": "userRole"
-            }
-        ]
-    }
-]
+GET: http://localhost:28080/usersRoles 
+вернется пустой массив.
 
-Страница описания:
-http://localhost:21812/swagger/index.html
+GET: http://localhost:28080/healthz/live 
+GET: http://localhost:28080/healthz/ready
+по запросам вернется строка.
+
+Страница swagger:
+http://localhost:28080/swagger/index.html
 
