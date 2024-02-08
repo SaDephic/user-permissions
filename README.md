@@ -19,9 +19,12 @@ GET: http://localhost:28080/usersRoles
 вернется пустой массив.
 
 GET: http://localhost:28080/healthz/live 
+
 GET: http://localhost:28080/healthz/ready
+
 по запросам вернется строка.
 
 Страница swagger:
+
 http://localhost:28080/swagger/index.html
 
