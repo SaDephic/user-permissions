@@ -5,6 +5,7 @@
 Команды сборки контейнера из каталога проекта (Windows):
 
 -- сборка образа проекта
+
 #Создание образа
 docker build  -f ".\user-permissions\Dockerfile"  --force-rm -t userpermissions  --build-arg "BUILD_CONFIGURATION=Release" ".\"
 
