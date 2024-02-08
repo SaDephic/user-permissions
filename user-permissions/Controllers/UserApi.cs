@@ -20,13 +20,13 @@ using Microsoft.AspNetCore.Authorization;
 using IO.Swagger.Models;
 
 namespace IO.Swagger.Controllers
-{ 
+{
     /// <summary>
     /// 
     /// </summary>
     [ApiController]
     public class UserApiController : ControllerBase
-    { 
+    {
         /// <summary>
         /// Назначение роли сотруднику
         /// </summary>
@@ -42,8 +42,8 @@ namespace IO.Swagger.Controllers
         [SwaggerResponse(statusCode: 201, type: typeof(UserRole), description: "successfull operation")]
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "Bad Request")]
         [SwaggerResponse(statusCode: 0, type: typeof(Error), description: "unexpected error")]
-        public virtual IActionResult AssignUserRole([FromBody]UserRole body)
-        { 
+        public virtual IActionResult AssignUserRole([FromBody] UserRole body)
+        {
             //TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(201, default(UserRole));
 
@@ -54,10 +54,10 @@ namespace IO.Swagger.Controllers
             // return StatusCode(0, default(Error));
             string exampleJson = null;
             exampleJson = "{\n  \"userLogin\" : \"userLogin\",\n  \"id\" : \"id\",\n  \"userRole\" : \"userRole\"\n}";
-            
-                        var example = exampleJson != null
-                        ? JsonConvert.DeserializeObject<UserRole>(exampleJson)
-                        : default(UserRole);            //TODO: Change the data returned
+
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<UserRole>(exampleJson)
+            : default(UserRole);            //TODO: Change the data returned
             return new ObjectResult(example);
         }
 
@@ -76,8 +76,8 @@ namespace IO.Swagger.Controllers
         [SwaggerOperation("DeleteUserRole")]
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "Bad Request")]
         [SwaggerResponse(statusCode: 0, type: typeof(Error), description: "unexpected error")]
-        public virtual IActionResult DeleteUserRole([FromRoute][Required]string id)
-        { 
+        public virtual IActionResult DeleteUserRole([FromRoute][Required] string id)
+        {
             //TODO: Uncomment the next line to return response 204 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(204);
 
@@ -107,8 +107,12 @@ namespace IO.Swagger.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(List<UsersRoleList>), description: "Successful operation")]
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "Bad Request")]
         [SwaggerResponse(statusCode: 0, type: typeof(Error), description: "unexpected error")]
-        public virtual IActionResult GetUsersRoles()
-        { 
+        public List<UsersRoleList> GetUserRoles()
+        {
+            return new List<UsersRoleList>();
+        }
+        /*public virtual IActionResult GetUsersRoles()
+        {
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(List<UsersRoleList>));
 
@@ -119,12 +123,12 @@ namespace IO.Swagger.Controllers
             // return StatusCode(0, default(Error));
             string exampleJson = null;
             exampleJson = "[ {\n  \"data\" : [ {\n    \"userLogin\" : \"userLogin\",\n    \"id\" : \"id\",\n    \"userRole\" : \"userRole\"\n  }, {\n    \"userLogin\" : \"userLogin\",\n    \"id\" : \"id\",\n    \"userRole\" : \"userRole\"\n  } ]\n}, {\n  \"data\" : [ {\n    \"userLogin\" : \"userLogin\",\n    \"id\" : \"id\",\n    \"userRole\" : \"userRole\"\n  }, {\n    \"userLogin\" : \"userLogin\",\n    \"id\" : \"id\",\n    \"userRole\" : \"userRole\"\n  } ]\n} ]";
-            
-                        var example = exampleJson != null
-                        ? JsonConvert.DeserializeObject<List<UsersRoleList>>(exampleJson)
-                        : default(List<UsersRoleList>);            //TODO: Change the data returned
+
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<List<UsersRoleList>>(exampleJson)
+            : default(List<UsersRoleList>);            //TODO: Change the data returned
             return new ObjectResult(example);
-        }
+        }*/
 
         /// <summary>
         /// Изменение роли сотрудника

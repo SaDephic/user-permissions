@@ -3,6 +3,10 @@
     "postgresql1": {
       "type": "postgresql",
       "connectionId": "DefaultConnection"
+    },
+    "secrets1": {
+      "type": "secrets",
+      "connectionId": null
     }
   }
 }

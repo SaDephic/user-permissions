@@ -7,7 +7,15 @@ namespace user_permissions.Models
     {
         public DbSet<UserRole> Users { get; set; }
         public DbSet<UserPermissions> Permissions { get; set; }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseNpgsql(@"Host=localhost;Username=postgres;Database=postgres");
+
+        protected readonly IConfiguration Configuration;
+        public DataContext(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
+        {
+            options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
+        }
     }
 }

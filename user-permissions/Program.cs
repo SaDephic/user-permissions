@@ -1,4 +1,5 @@
 using IO.Swagger.Models;
+using Microsoft.EntityFrameworkCore;
 using user_permissions.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,25 +11,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//DB:
+var connection = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(connection));
+
 var app = builder.Build();
 
-using (DataContext db = new DataContext())
-{
-    // пересоздадим базу данных
-    db.Database.EnsureDeleted();
-    db.Database.EnsureCreated();
-
-    // добавляем начальные данные
-    UserRole microsoft = new UserRole { Id = "1", UserLogin = "A", _UserRole = "R" };
-    UserRole google = new UserRole { Id = "1", UserLogin = "A", _UserRole = "L" };
-    db.Users.AddRange(microsoft, google);
-
-    UserPermissions perm1 = new UserPermissions { UserRole = "R", Permissions = { "1", "2" } };
-    UserPermissions perm2 = new UserPermissions { UserRole = "R", Permissions = { "3", "4" } };
-    db.Permissions.AddRange(perm1, perm2);
-
-    db.SaveChanges();
-}
+//DB init
+using var serviceScope = app.Services.CreateScope();
+var dbContext = serviceScope.ServiceProvider.GetService<DbContext>();
+dbContext?.Database.EnsureCreated();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
