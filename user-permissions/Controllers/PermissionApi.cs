@@ -18,6 +18,8 @@ using IO.Swagger.Attributes;
 using IO.Swagger.Security;
 using Microsoft.AspNetCore.Authorization;
 using IO.Swagger.Models;
+using Npgsql;
+using user_permissions.Models;
 
 namespace IO.Swagger.Controllers
 { 
@@ -26,7 +28,7 @@ namespace IO.Swagger.Controllers
     /// </summary>
     [ApiController]
     public class PermissionApiController : ControllerBase
-    { 
+    {
         /// <summary>
         /// Получение доступов пользователя по информации, содержащейся в bearer token
         /// </summary>
@@ -45,7 +47,18 @@ namespace IO.Swagger.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "Bad Request")]
         [SwaggerResponse(statusCode: 500, type: typeof(Error), description: "Internal Server Error")]
         [SwaggerResponse(statusCode: 0, type: typeof(Error), description: "unexpected error")]
-        public virtual IActionResult GetUserPermissions()
+
+        public IActionResult GetUserPermissions() {
+
+          /*  using (var conn = new NpgsqlConnection())
+            {
+                testQuery = "select 'HITHERE' as firstval, 'HOTHERE' as secondval;";
+                var results = DataContext.Database.SqlQuery<List<string>>(testQuery);
+            }*/
+                // получить из базы данные ...
+                return new ObjectResult(JsonConvert.DeserializeObject<UserPermissions>("{\n  \"permissions\" : [ \"permissions\", \"permissions\" ],\n  \"userRole\" : \"userRole\"\n}"));
+        }
+        /*public virtual IActionResult GetUserPermissions()
         { 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(UserPermissions));
@@ -68,6 +81,6 @@ namespace IO.Swagger.Controllers
                         ? JsonConvert.DeserializeObject<UserPermissions>(exampleJson)
                         : default(UserPermissions);            //TODO: Change the data returned
             return new ObjectResult(example);
-        }
+        }*/
     }
 }

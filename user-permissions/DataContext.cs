@@ -1,5 +1,6 @@
 ﻿using IO.Swagger.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace user_permissions.Models
 {
