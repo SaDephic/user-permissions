@@ -23,7 +23,7 @@
 ### GET: http://localhost:28080/healthz/live  << строка статуса.
 ### GET: http://localhost:28080/healthz/ready  << строка статуса.
 
-# Страница swagger:
+# Swagger:
 
 ### http://localhost:28080/swagger/index.html
 
