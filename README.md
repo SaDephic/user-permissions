@@ -10,7 +10,7 @@
 ### linux
 ./build.sh
 
-### Команды:
+### Команды(внутри):
 
 ## docker-compose down --remove-orphans
 
