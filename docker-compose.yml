@@ -1,9 +1,7 @@
 version: "3.9"
-
 networks:
   deploy-dev:
     driver: bridge
-
 services:
   app: 
     container_name: user-permissions
@@ -11,25 +9,23 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - "28080:80"
     networks:
       - deploy-dev
     depends_on:
       - postgres_db
-
   postgres_db:
     container_name: postgres
-    image: postgres:latest
+    image: postgres:15
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123
-      POSTGRES_DB: deploy-guide
+      POSTGRES_PASSWORD: pem1812
+      POSTGRES_DB: user-permissions
     ports:
       - "5432:5432"
     networks:
       - deploy-dev
     volumes:
-      - postgres-data:/var/lib/postgresql/data
-
+      - postgres-data:/var/lib/pgsql/data
 volumes:
   postgres-data:
