@@ -29,7 +29,7 @@ GET: http://localhost:28080/healthz/ready  << строка статуса
 
 ### http://localhost:28080/swagger/index.html
 
-# Отладка:
+# Отладка (Visual studio):
 
 ## Контейнер базы:
 docker run -p 5432:5432 --name duser-permissions -e POSTGRES_PASSWORD=pem1812  -d postgres
