@@ -1,13 +1,13 @@
-#Для сборки требуется:
-##- .Net6.0.26 sdk
-##- Docker version 25.0.2, build 29cf629
+# Для сборки требуется:
+## - .Net6.0.26 sdk
+## - Docker version 25.0.2, build 29cf629
 
-#Сборка:
+# Сборка:
 
-###windows
+### windows
 ./build.bat 
 
-###linux
+### linux
 ./build.sh
 
 или выполнить команды:
@@ -18,16 +18,10 @@ docker-compose build
 
 docker-compose up -d
 
-#Тест:
-GET: http://localhost:28080/usersRoles 
-
-вернется пустой массив.
-
-GET: http://localhost:28080/healthz/live 
-
-GET: http://localhost:28080/healthz/ready
-
-по запросам вернется строка.
+# Tест:
+## GET: http://localhost:28080/usersRoles << request [].
+## GET: http://localhost:28080/healthz/live  << строка статуса.
+## GET: http://localhost:28080/healthz/ready  << строка статуса.
 
 Страница swagger:
 
