@@ -4,24 +4,26 @@
 
 # Сборка:
 
-### windows
+## windows
 ./build.bat 
 
-### linux
+## linux
 ./build.sh
 
-### Команды(внутри):
+## Команды(внутри):
 
-## docker-compose down --remove-orphans
+docker-compose down --remove-orphans
 
-## docker-compose build
+docker-compose build
 
-## docker-compose up -d
+docker-compose up -d
 
 # Tест:
-### GET: http://localhost:28080/usersRoles << [].
-### GET: http://localhost:28080/healthz/live  << строка статуса.
-### GET: http://localhost:28080/healthz/ready  << строка статуса.
+GET: http://localhost:28080/usersRoles << []
+
+GET: http://localhost:28080/healthz/live  << строка статуса
+
+GET: http://localhost:28080/healthz/ready  << строка статуса
 
 # Swagger:
 
