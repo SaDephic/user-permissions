@@ -10,13 +10,13 @@
 ### linux
 ./build.sh
 
-или выполнить команды:
+### Команды:
 
-docker-compose down --remove-orphans
+## docker-compose down --remove-orphans
 
-docker-compose build
+## docker-compose build
 
-docker-compose up -d
+## docker-compose up -d
 
 # Tест:
 ### GET: http://localhost:28080/usersRoles << request [].
