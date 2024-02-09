@@ -29,3 +29,12 @@ GET: http://localhost:28080/healthz/ready  << строка статуса
 
 ### http://localhost:28080/swagger/index.html
 
+# Отладка:
+docker run -p 5432:5432 --name duser-permissions -e POSTGRES_PASSWORD=pem1812  -d postgres
+
+# Миграция
+-Add-Migration InitialCreate
+
+- Update-Database
+
+
