@@ -6,10 +6,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["user-permissions/user-permissions.csproj", "user-permissions/"]
-RUN dotnet restore "user-permissions/user-permissions.csproj"
+COPY ["/user-permissions.csproj", "./"]
+RUN dotnet restore "./user-permissions.csproj"
 COPY . .
-WORKDIR "/src/user-permissions"
+WORKDIR "/src"
 RUN dotnet build "user-permissions.csproj" -c Release -o /app/build
 
 FROM build AS publish
