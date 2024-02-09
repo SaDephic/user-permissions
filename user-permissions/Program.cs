@@ -1,55 +1,48 @@
-using IO.Swagger.Models;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.EntityFrameworkCore;
-using user_permissions.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.Extensions.DependencyInjection;
 
-// Add services to the container.
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+using System;
+using System.Threading.Tasks;
+using user_permissions.Data;
+using user_permissions.Permission;
+using user_permissions.Seeds;
 
-
-//DB
-builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-//healthcheck service
-builder.Services.AddHostedService<StartupBackgroundService>();
-builder.Services.AddSingleton<StartupHealthCheck>();
-builder.Services.AddHealthChecks()
-    .AddCheck<StartupHealthCheck>(
-        "Startup",
-        tags: new[] { "ready" });
-
-var app = builder.Build();
-
-//DB init
-using var serviceScope = app.Services.CreateScope();
-var dbContext = serviceScope.ServiceProvider.GetService<DbContext>();
-dbContext?.Database.EnsureCreated();
-
-app.MapHealthChecks("/healthz/ready", new HealthCheckOptions
+namespace user_permissions
 {
-    Predicate = healthCheck => healthCheck.Tags.Contains("ready")
-});
+    public class Program
+    {
+        public async static Task Main(string[] args)
+        {
+            var host = WebApplication.CreateBuilder(args);
 
-app.MapHealthChecks("/healthz/live", new HealthCheckOptions
-{
-    Predicate = _ => false
-});
+            host.Services.AddControllers();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+            services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+            services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+
+            using (var scope = host.Build().Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+                var logger = loggerFactory.CreateLogger("app");
+                try
+                {
+                    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                    await Seeds.DefaultUsers.SeedSuperAdminAsync(userManager, roleManager);
+                    logger.LogInformation("Application Starting");
+                }
+                catch (Exception ex)
+                {
+                    logger.LogWarning(ex, "An error occurred seeding the DB");
+                }
+            }
+        }
+    }
 }
-
-app.UseCors("default");
-app.UseAuthorization();
-app.MapControllers();
-
-app.Run();
