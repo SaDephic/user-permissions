@@ -19,11 +19,11 @@ docker-compose build
 docker-compose up -d
 
 # Tест:
-## GET: http://localhost:28080/usersRoles << request [].
-## GET: http://localhost:28080/healthz/live  << строка статуса.
-## GET: http://localhost:28080/healthz/ready  << строка статуса.
+### GET: http://localhost:28080/usersRoles << request [].
+### GET: http://localhost:28080/healthz/live  << строка статуса.
+### GET: http://localhost:28080/healthz/ready  << строка статуса.
 
-Страница swagger:
+# Страница swagger:
 
-http://localhost:28080/swagger/index.html
+### http://localhost:28080/swagger/index.html
 
