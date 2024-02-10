@@ -5,10 +5,10 @@
 # Сборка:
 
 ## windows
-./build.bat 
+./user-permissions/build.bat 
 
 ## linux
-./build.sh
+./user-permissions/build.sh
 
 ## Команды(внутри):
 
@@ -19,24 +19,6 @@ docker-compose build
 docker-compose up -d
 
 # Tест:
-GET: http://localhost:28080/usersRoles << []
-
-GET: http://localhost:28080/healthz/live  << строка статуса
-
-GET: http://localhost:28080/healthz/ready  << строка статуса
-
-# Swagger:
-
-### http://localhost:28080/swagger/index.html
-
-# Отладка (Visual studio):
-
-## Контейнер базы:
-docker run -p 5432:5432 --name duser-permissions -e POSTGRES_PASSWORD=pem1812  -d postgres
-
-## Инициализация базы:
-- Add-Migration InitialCreate
-
-- Update-Database
-
+GET: http://localhost:21812/usersroles << 
+[{"data":[{"id":"id","userLogin":"userLogin","_UserRole":"userRole"},{"id":"id","userLogin":"userLogin","_UserRole":"userRole"}]},{"data":[{"id":"id","userLogin":"userLogin","_UserRole":"userRole"},{"id":"id","userLogin":"userLogin","_UserRole":"userRole"}]}]
 

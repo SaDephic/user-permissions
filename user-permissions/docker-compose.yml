@@ -23,8 +23,8 @@ services:
     container_name: user-permissions
     build: .
     ports:
-      - "28081:443"
-      - "28080:80"
+      - "21813:443"
+      - "21812:80"
     networks:
       - deploy-dev
     depends_on:
