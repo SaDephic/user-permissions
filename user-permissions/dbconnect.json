@@ -1,0 +1,6 @@
+{
+  "ConnectionStrings": {
+    "user-permissions": "Server=localhost;Port=5432;Username=postgres;password=pem1812;database=user-permissions"
+  }
+}
+//docker run -p 5432:5432 --name postgres -e POSTGRES_PASSWORD=pem1812  -d postgres:15

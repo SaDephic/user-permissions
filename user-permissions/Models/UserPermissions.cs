@@ -31,7 +31,7 @@ namespace IO.Swagger.Models
         /// </summary>
         /// <value>Роль</value>
         [Required]
-
+        [Key]
         [DataMember(Name="userRole")]
         public string UserRole { get; set; }
 

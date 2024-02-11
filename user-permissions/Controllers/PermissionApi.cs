@@ -38,7 +38,7 @@ namespace IO.Swagger.Controllers
         /// <response code="0">unexpected error</response>
         [HttpGet]
         [Route("/permissions")]
-        [Authorize(AuthenticationSchemes = BearerAuthenticationHandler.SchemeName)]
+        //[Authorize(AuthenticationSchemes = BearerAuthenticationHandler.SchemeName)]
         [ValidateModelState]
         [SwaggerOperation("GetUserPermissions")]
         [SwaggerResponse(statusCode: 200, type: typeof(UserPermissions), description: "Successful operation")]

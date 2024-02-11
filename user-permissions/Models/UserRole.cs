@@ -25,12 +25,12 @@ namespace IO.Swagger.Models
     /// </summary>
     [DataContract]
     public partial class UserRole : IEquatable<UserRole>
-    { 
+    {
         /// <summary>
         /// Идентификатор записи в таблице
         /// </summary>
         /// <value>Идентификатор записи в таблице</value>
-
+        [Key]
         [DataMember(Name="id")]
         public string Id { get; set; }
 
