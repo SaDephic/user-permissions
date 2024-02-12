@@ -18,6 +18,13 @@ using IO.Swagger.Attributes;
 using IO.Swagger.Security;
 using Microsoft.AspNetCore.Authorization;
 using IO.Swagger.Models;
+using user_permissions;
+using NuGet.Protocol;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Npgsql;
 
 namespace IO.Swagger.Controllers
 { 
@@ -26,7 +33,13 @@ namespace IO.Swagger.Controllers
     /// </summary>
     [ApiController]
     public class PermissionApiController : ControllerBase
-    { 
+    {
+        public PermissionApiController(DataContext dbContext)
+        {
+            this.Context = dbContext;
+        }
+
+        private DataContext Context { get; }
         /// <summary>
         /// Получение доступов пользователя по информации, содержащейся в bearer token
         /// </summary>
@@ -45,8 +58,8 @@ namespace IO.Swagger.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "Bad Request")]
         [SwaggerResponse(statusCode: 500, type: typeof(Error), description: "Internal Server Error")]
         [SwaggerResponse(statusCode: 0, type: typeof(Error), description: "unexpected error")]
-        public virtual IActionResult GetUserPermissions()
-        { 
+        public /*virtual*/ IActionResult GetUserPermissions()
+        {
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(UserPermissions));
 
@@ -61,13 +74,25 @@ namespace IO.Swagger.Controllers
 
             //TODO: Uncomment the next line to return response 0 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(0, default(Error));
-            string exampleJson = null;
+            /*string exampleJson = null;
             exampleJson = "{\n  \"permissions\" : [ \"permissions\", \"permissions\" ],\n  \"userRole\" : \"userRole\"\n}";
             
                         var example = exampleJson != null
                         ? JsonConvert.DeserializeObject<UserPermissions>(exampleJson)
                         : default(UserPermissions);            //TODO: Change the data returned
-            return new ObjectResult(example);
+            return new ObjectResult(example);*/
+            try
+            {
+                var res = Context.Permissions.AsNoTracking();
+                if (res.ToString() == null)
+                {
+                    return new ObjectResult(new UserPermissions { UserRole = "SUPERUSER", Permissions = new List<string> { "FREE" } });
+                }
+                return new ObjectResult(res);
+            }catch
+            {
+                return StatusCode(500, default(Error));
+            }
         }
     }
 }

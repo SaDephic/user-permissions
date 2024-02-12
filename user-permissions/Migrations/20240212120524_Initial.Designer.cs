@@ -12,7 +12,7 @@ using user_permissions;
 namespace user_permissions.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240212110749_Initial")]
+    [Migration("20240212120524_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -42,22 +42,22 @@ namespace user_permissions.Migrations
                         new
                         {
                             UserRole = "MANAGER",
-                            Permissions = new List<string> { "1", "2", "3" }
+                            Permissions = new List<string>()
                         },
                         new
                         {
                             UserRole = "HRPARTNER",
-                            Permissions = new List<string> { "1", "2", "3" }
+                            Permissions = new List<string>()
                         },
                         new
                         {
                             UserRole = "HRDEV",
-                            Permissions = new List<string> { "1", "2", "3" }
+                            Permissions = new List<string>()
                         },
                         new
                         {
                             UserRole = "SUPERUSER",
-                            Permissions = new List<string> { "1", "2", "3" }
+                            Permissions = new List<string>()
                         });
                 });
 

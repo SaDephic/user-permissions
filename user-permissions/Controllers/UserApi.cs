@@ -18,6 +18,8 @@ using IO.Swagger.Attributes;
 using IO.Swagger.Security;
 using Microsoft.AspNetCore.Authorization;
 using IO.Swagger.Models;
+using user_permissions;
+using Microsoft.EntityFrameworkCore;
 
 namespace IO.Swagger.Controllers
 { 
@@ -26,7 +28,13 @@ namespace IO.Swagger.Controllers
     /// </summary>
     [ApiController]
     public class UserApiController : ControllerBase
-    { 
+    {
+        public UserApiController(DataContext dbContext)
+        {
+            this.Context = dbContext;
+        }
+        //? Безопасно
+        private DataContext Context { get; set; }
         /// <summary>
         /// Назначение роли сотруднику
         /// </summary>
@@ -42,8 +50,20 @@ namespace IO.Swagger.Controllers
         [SwaggerResponse(statusCode: 201, type: typeof(UserRole), description: "successfull operation")]
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "Bad Request")]
         [SwaggerResponse(statusCode: 0, type: typeof(Error), description: "unexpected error")]
-        public virtual IActionResult AssignUserRole([FromBody]UserRole body)
-        { 
+        public /*virtual*/ IActionResult AssignUserRole([FromBody]UserRole body)
+        {
+            if (body.ToString() == null)
+            {
+                return StatusCode(400, default(Error));
+            }
+            if (!Context.UserRoles.Contains(body))
+            {
+                Context.Add(body);
+                Context.SaveChanges();
+                return StatusCode(201, body);
+            }
+            return StatusCode(0, default(Error));
+
             //TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(201, default(UserRole));
 
@@ -52,13 +72,13 @@ namespace IO.Swagger.Controllers
 
             //TODO: Uncomment the next line to return response 0 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(0, default(Error));
-            string exampleJson = null;
+            /*string exampleJson = null;
             exampleJson = "{\n  \"userLogin\" : \"userLogin\",\n  \"id\" : \"id\",\n  \"userRole\" : \"userRole\"\n}";
             
                         var example = exampleJson != null
                         ? JsonConvert.DeserializeObject<UserRole>(exampleJson)
                         : default(UserRole);            //TODO: Change the data returned
-            return new ObjectResult(example);
+            return new ObjectResult(example);*/
         }
 
         /// <summary>
@@ -76,8 +96,16 @@ namespace IO.Swagger.Controllers
         [SwaggerOperation("DeleteUserRole")]
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "Bad Request")]
         [SwaggerResponse(statusCode: 0, type: typeof(Error), description: "unexpected error")]
-        public virtual IActionResult DeleteUserRole([FromRoute][Required]string id)
-        { 
+        public /*virtual*/ IActionResult DeleteUserRole([FromRoute][Required]string id)
+        {            
+            if (id.ToString() == null)
+            {
+                return StatusCode(400, default(Error));
+            }
+            _ = Context.UserRoles.Where(x => x.Id == id).FirstOrDefault();
+            Context.SaveChanges();
+            return StatusCode(0, default(Error));
+
             //TODO: Uncomment the next line to return response 204 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(204);
 
@@ -90,7 +118,7 @@ namespace IO.Swagger.Controllers
             //TODO: Uncomment the next line to return response 0 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(0, default(Error));
 
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         /// <summary>
@@ -107,8 +135,8 @@ namespace IO.Swagger.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(List<UsersRoleList>), description: "Successful operation")]
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "Bad Request")]
         [SwaggerResponse(statusCode: 0, type: typeof(Error), description: "unexpected error")]
-        public virtual IActionResult GetUsersRoles()
-        { 
+        public /*virtual*/ IActionResult GetUsersRoles()
+        {
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(List<UsersRoleList>));
 
@@ -117,13 +145,15 @@ namespace IO.Swagger.Controllers
 
             //TODO: Uncomment the next line to return response 0 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(0, default(Error));
-            string exampleJson = null;
+            /*string exampleJson = null;
             exampleJson = "[ {\n  \"data\" : [ {\n    \"userLogin\" : \"userLogin\",\n    \"id\" : \"id\",\n    \"userRole\" : \"userRole\"\n  }, {\n    \"userLogin\" : \"userLogin\",\n    \"id\" : \"id\",\n    \"userRole\" : \"userRole\"\n  } ]\n}, {\n  \"data\" : [ {\n    \"userLogin\" : \"userLogin\",\n    \"id\" : \"id\",\n    \"userRole\" : \"userRole\"\n  }, {\n    \"userLogin\" : \"userLogin\",\n    \"id\" : \"id\",\n    \"userRole\" : \"userRole\"\n  } ]\n} ]";
             
                         var example = exampleJson != null
                         ? JsonConvert.DeserializeObject<List<UsersRoleList>>(exampleJson)
                         : default(List<UsersRoleList>);            //TODO: Change the data returned
-            return new ObjectResult(example);
+            return new ObjectResult(example);*/
+
+            return new ObjectResult(Context.UserRoles.AsNoTracking());
         }
 
         /// <summary>
@@ -143,8 +173,23 @@ namespace IO.Swagger.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(UserRole), description: "successfull operation")]
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "Bad Request")]
         [SwaggerResponse(statusCode: 0, type: typeof(Error), description: "unexpected error")]
-        public virtual IActionResult UpdateUserRole([FromBody]UserRole body, [FromRoute][Required]string id)
-        { 
+        public /*virtual*/ IActionResult UpdateUserRole([FromBody]UserRole body, [FromRoute][Required]string id)
+        {
+            if (body.ToString() == null || body.Id != id)
+            {
+                return BadRequest();
+            }
+
+            var todo = Context.UserRoles.Find(id);
+            if (todo == null)
+            {
+                return NotFound();
+            }
+
+            Context.UserRoles.Update(body);
+            return StatusCode(200, body);
+
+
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(UserRole));
 
@@ -156,13 +201,13 @@ namespace IO.Swagger.Controllers
 
             //TODO: Uncomment the next line to return response 0 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(0, default(Error));
-            string exampleJson = null;
+            /*string exampleJson = null;
             exampleJson = "{\n  \"userLogin\" : \"userLogin\",\n  \"id\" : \"id\",\n  \"userRole\" : \"userRole\"\n}";
             
                         var example = exampleJson != null
                         ? JsonConvert.DeserializeObject<UserRole>(exampleJson)
                         : default(UserRole);            //TODO: Change the data returned
-            return new ObjectResult(example);
+            return new ObjectResult(example);*/
         }
     }
 }

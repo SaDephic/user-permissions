@@ -43,10 +43,10 @@ namespace user_permissions.Migrations
                 columns: new[] { "UserRole", "Permissions" },
                 values: new object[,]
                 {
-                    { "HRDEV", new List<string> { "1", "2", "3" } },
-                    { "HRPARTNER", new List<string> { "1", "2", "3" } },
-                    { "MANAGER", new List<string> { "1", "2", "3" } },
-                    { "SUPERUSER", new List<string> { "1", "2", "3" } }
+                    { "HRDEV", new List<string>() },
+                    { "HRPARTNER", new List<string>() },
+                    { "MANAGER", new List<string>() },
+                    { "SUPERUSER", new List<string>() }
                 });
         }
 

@@ -39,22 +39,22 @@ namespace user_permissions.Migrations
                         new
                         {
                             UserRole = "MANAGER",
-                            Permissions = new List<string> { "1", "2", "3" }
+                            Permissions = new List<string>()
                         },
                         new
                         {
                             UserRole = "HRPARTNER",
-                            Permissions = new List<string> { "1", "2", "3" }
+                            Permissions = new List<string>()
                         },
                         new
                         {
                             UserRole = "HRDEV",
-                            Permissions = new List<string> { "1", "2", "3" }
+                            Permissions = new List<string>()
                         },
                         new
                         {
                             UserRole = "SUPERUSER",
-                            Permissions = new List<string> { "1", "2", "3" }
+                            Permissions = new List<string>()
                         });
                 });
 

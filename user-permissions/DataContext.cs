@@ -16,10 +16,10 @@ namespace user_permissions
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserPermissions>().HasData(
-                    new UserPermissions{UserRole = "MANAGER", Permissions = new List<string> { "1", "2", "3" } },
-                    new UserPermissions{UserRole = "HRPARTNER", Permissions = new List<string> { "1", "2", "3" } },
-                    new UserPermissions{UserRole = "HRDEV", Permissions = new List<string> { "1", "2", "3" } },
-                    new UserPermissions{UserRole = "SUPERUSER", Permissions = new List<string> { "1", "2", "3" } }
+                    new UserPermissions{UserRole = "MANAGER", Permissions = new List<string> {} },
+                    new UserPermissions{UserRole = "HRPARTNER", Permissions = new List<string> {} },
+                    new UserPermissions{UserRole = "HRDEV", Permissions = new List<string> {} },
+                    new UserPermissions{UserRole = "SUPERUSER", Permissions = new List<string> {} }
             );
         }
         protected override void OnConfiguring(DbContextOptionsBuilder options)
