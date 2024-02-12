@@ -1,5 +1,0 @@
-{
-  "ConnectionStrings": {
-    "user-permissions": "Server=localhost;Port=5432;Username=postgres;password=pem1812;database=user-permissions"
-  }
-}
