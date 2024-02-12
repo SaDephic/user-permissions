@@ -14,7 +14,7 @@ builder.Configuration.AddJsonFile("dbconnect.json",
         optional: true,
         reloadOnChange: false).Build();
 
-builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("user-permissions")));
+builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(builder.Configuration["DB_STRING"]));
 
 var app = builder.Build();
 
