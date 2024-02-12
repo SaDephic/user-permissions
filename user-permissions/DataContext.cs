@@ -9,10 +9,9 @@ namespace user_permissions
         public DbSet<UsersRoleList> UserRoles { get; set; }
         public DbSet<UserPermissions> Permissions { get; set; }
 
-        protected readonly IConfiguration Configuration;
-        public DataContext(IConfiguration configuration)
+        public DataContext(DbContextOptions<DataContext> options)
+            : base(options)
         {
-            Configuration = configuration; 
             Database.EnsureDeleted();
             Database.EnsureCreated();
         }
@@ -24,10 +23,6 @@ namespace user_permissions
                     new UserPermissions{UserRole = "HRDEV", Permissions = {"1","2","3"}},
                     new UserPermissions{UserRole = "SUPERUSER", Permissions = {"1","2","3"}}
             );
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-        {
-            options.UseNpgsql(Configuration.GetConnectionString("db"));
         }
     }
 }
