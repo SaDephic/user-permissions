@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: chr-dev.gba.ls-dev.ru/userpermissions
+  repository: chr-dev.gba.ls-dev.ru/user-permissions
   pullPolicy: Always
   tag: 1.0.1
 
