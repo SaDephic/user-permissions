@@ -21,12 +21,12 @@
     "Docker": {
       "commandName": "Docker",
       //"httpPort": 22812,
-      "sslPort": 21812,
-      "launchBrowser": false,
+      //"sslPort": 21812,
+      "launchBrowser": false,//true,
       //"launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/permissions", //swagger",
       "environmentVariables": {
-        "ASPNETCORE_URLS": "https://+:443;http://+:80",
-        "ASPNETCORE_HTTPS_PORT": "21812"
+        "ASPNETCORE_URLS": "https://+:443;http://+:80"
+        //"ASPNETCORE_HTTPS_PORT": "21812"
       },
       "publishAllPorts": true,
       "useSSL": true
