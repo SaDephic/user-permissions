@@ -9,11 +9,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//add db config
-builder.Configuration.AddJsonFile("dbconnect.json",
-        optional: true,
-        reloadOnChange: false).Build();
-
 builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(builder.Configuration["DB_STRING"]));
 
 var app = builder.Build();
