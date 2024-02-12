@@ -81,18 +81,16 @@ namespace IO.Swagger.Controllers
                         ? JsonConvert.DeserializeObject<UserPermissions>(exampleJson)
                         : default(UserPermissions);            //TODO: Change the data returned
             return new ObjectResult(example);*/
-            try
-            {
-                var res = Context.Permissions.AsNoTracking();
-                if (res.ToString() == null)
-                {
-                    return new ObjectResult(new UserPermissions { UserRole = "SUPERUSER", Permissions = new List<string> { "FREE" } });
-                }
-                return new ObjectResult(res);
-            }catch
-            {
-                return StatusCode(500, default(Error));
-            }
+
+            List<UserPermissions> l = new () {
+                new UserPermissions { UserRole = "MANAGER", Permissions = new List<string> { "PERM_ABSENCE_MANAGER_READ", "PERM_HEALTHCHECK_MANAGER_READ", "PERM_MYDEPARTMENTS_MANAGER_READ" } },
+                new UserPermissions { UserRole = "HRPARTNER", Permissions = new List<string> { "PERM_ABSENCE_READ", "PERM_HEALTHCHECK_ADD", "PERM_MYDEPARTMENTS_READ" } },
+                new UserPermissions { UserRole = "HRDEV", Permissions = new List<string> { "PERM_ABSENCE_READ", "PERM_MYDEPARTMENTS_READ" } },
+                new UserPermissions { UserRole = "SUPERUSER", Permissions = new List<string> { "PERM_USER_ROLE_ADD", "PERM_ABSENCE_READ", "PERM_HEALTHCHECK_ADD", "PERM_MYDEPARTMENTS_READ" } }
+            };
+            return new ObjectResult(l);
+
+            //return new ObjectResult(Context.Permissions.AsNoTracking());
         }
     }
 }
