@@ -30,6 +30,7 @@ namespace IO.Swagger.Models
         /// Идентификатор записи в таблице
         /// </summary>
         /// <value>Идентификатор записи в таблице</value>
+        [Required]
         [Key]
         [DataMember(Name="id")]
         public string Id { get; set; }

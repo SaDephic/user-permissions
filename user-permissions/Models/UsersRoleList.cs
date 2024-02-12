@@ -25,7 +25,7 @@ namespace IO.Swagger.Models
     /// </summary>
     [DataContract]
     public partial class UsersRoleList : IEquatable<UsersRoleList>
-    { 
+    {
         /// <summary>
         /// список пользователей и их ролей
         /// </summary>

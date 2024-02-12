@@ -6,7 +6,7 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "DB_STRING": "Server=localhost;Port=5432;Username=postgres;password=pem1812;database=user-permissions"
+        "DB_STRING": "Server=localhost;Port=5432;Username=postgres;password=pem1812;database=user-permissions"//database connection
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7163;http://localhost:5240"
@@ -17,18 +17,15 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "DB_STRING": "Server=localhost;Port=5432;Username=postgres;password=pem1812;database=user-permissions"
+        "DB_STRING": "Server=localhost;Port=5432;Username=postgres;password=pem1812;database=user-permissions"//database connection
       }
     },
     "Docker": {
       "commandName": "Docker",
-      //"httpPort": 22812,
-      //"sslPort": 21812,
-      "launchBrowser": false,//true,
-      //"launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/permissions", //swagger",
+      "launchBrowser": false,
       "environmentVariables": {
-        "ASPNETCORE_URLS": "https://+:443;http://+:80"
-        //"ASPNETCORE_HTTPS_PORT": "21812"
+        "ASPNETCORE_URLS": "https://+:443;http://+:80",
+        "DB_STRING": "Server=localhost;Port=5432;Username=postgres;password=pem1812;database=user-permissions"//database connection
       },
       "publishAllPorts": true,
       "useSSL": true
