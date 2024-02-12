@@ -58,7 +58,7 @@ namespace IO.Swagger.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "Bad Request")]
         [SwaggerResponse(statusCode: 500, type: typeof(Error), description: "Internal Server Error")]
         [SwaggerResponse(statusCode: 0, type: typeof(Error), description: "unexpected error")]
-        public /*virtual*/ IActionResult GetUserPermissions()
+        public /*virtual*/ IActionResult GetUserPermissions([FromBody] UserRole body) //remove arg after add Bearer
         {
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(UserPermissions));
@@ -88,7 +88,7 @@ namespace IO.Swagger.Controllers
                 new UserPermissions { UserRole = "HRDEV", Permissions = new List<string> { "PERM_ABSENCE_READ", "PERM_MYDEPARTMENTS_READ" } },
                 new UserPermissions { UserRole = "SUPERUSER", Permissions = new List<string> { "PERM_USER_ROLE_ADD", "PERM_ABSENCE_READ", "PERM_HEALTHCHECK_ADD", "PERM_MYDEPARTMENTS_READ" } }
             };
-            return new ObjectResult(l);
+            return new ObjectResult(l.Where(x => x.UserRole == body._UserRole).FirstOrDefault());
 
             //return new ObjectResult(Context.Permissions.AsNoTracking());
         }
