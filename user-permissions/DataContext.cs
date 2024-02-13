@@ -9,9 +9,9 @@ namespace user_permissions
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<UserPermissions> Permissions { get; set; }
 
-        protected readonly IConfiguration Configuration;
-        public DataContext(IConfiguration configuration) {
-            Configuration = configuration;
+        public DataContext(DbContextOptions<DataContext> options)
+            :base(options)
+        {
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,10 +27,6 @@ namespace user_permissions
                 new UserRole { Id = "3", UserLogin = "Oleg", _UserRole =  "HRDEV",},
                 new UserRole { Id = "4", UserLogin = "Roman", _UserRole =  "SUPERUSER"}
             );
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-        {
-            options.UseNpgsql(Configuration["DB_STRING"]);
         }
     }
 }
