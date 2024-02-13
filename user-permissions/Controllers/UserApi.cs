@@ -31,10 +31,10 @@ namespace IO.Swagger.Controllers
     {
         public UserApiController(DataContext dbContext)
         {
-            this.Context = dbContext;
+            this.сontext = dbContext;
         }
         //? Безопасно
-        private DataContext Context { get; set; }
+        private readonly DataContext сontext;
         /// <summary>
         /// Назначение роли сотруднику
         /// </summary>
@@ -52,17 +52,14 @@ namespace IO.Swagger.Controllers
         [SwaggerResponse(statusCode: 0, type: typeof(Error), description: "unexpected error")]
         public /*virtual*/ IActionResult AssignUserRole([FromBody]UserRole body)
         {
-            if (body == null)
+            var exisingRole = сontext.UserRoles.Where(ur => ur.Id == body.Id).FirstOrDefault();
+            if (exisingRole != null)
             {
                 return StatusCode(400, default(Error));
             }
-            if (!Context.UserRoles.Contains(body))
-            {
-                Context.Add(body);
-                Context.SaveChanges();
-                return StatusCode(201, body);
-            }
-            return StatusCode(0, default(Error));
+            сontext.UserRoles.Add(body);
+            сontext.SaveChanges();
+            return StatusCode(201, body);
 
             //TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(201, default(UserRole));
@@ -97,14 +94,15 @@ namespace IO.Swagger.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "Bad Request")]
         [SwaggerResponse(statusCode: 0, type: typeof(Error), description: "unexpected error")]
         public /*virtual*/ IActionResult DeleteUserRole([FromRoute][Required]string id)
-        {            
-            if (id == null)
+        {
+            var exisingRole = сontext.UserRoles.Where(ur => ur.Id == id).FirstOrDefault();
+            if (exisingRole == null)
             {
-                return StatusCode(400, default(Error));
+                return StatusCode(404, default(Error));
             }
-            _ = Context.UserRoles.Where(x => x.Id == id).FirstOrDefault();
-            Context.SaveChanges();
-            return StatusCode(0, default(Error));
+            сontext.UserRoles.Remove(exisingRole);
+            сontext.SaveChanges();
+            return StatusCode(204);
 
             //TODO: Uncomment the next line to return response 204 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(204);
@@ -153,15 +151,20 @@ namespace IO.Swagger.Controllers
                         : default(List<UsersRoleList>);            //TODO: Change the data returned
             return new ObjectResult(example);*/
 
-            /*List<UserRole> l = new() {
-                new UserRole { Id = "1", UserLogin = "Anna", _UserRole = "MANAGER"},
-                new UserRole { Id = "2", UserLogin = "Denis", _UserRole = "HRPARTNER",},
-                new UserRole { Id = "3", UserLogin = "Oleg", _UserRole =  "HRDEV",},
-                new UserRole { Id = "4", UserLogin = "Roman", _UserRole =  "SUPERUSER"}
+            var userRoles = new UsersRoleList
+            {
+                Data = сontext.UserRoles.Select(ur => ur).ToList()
             };
-            return new ObjectResult(l);*/
 
-            return new ObjectResult(Context.UserRoles.AsNoTracking());
+            //List<UserRole> l = new() {
+            //    new UserRole { Id = "1", UserLogin = "Anna", _UserRole = "MANAGER"},
+            //    new UserRole { Id = "2", UserLogin = "Denis", _UserRole = "HRPARTNER",},
+            //    new UserRole { Id = "3", UserLogin = "Oleg", _UserRole =  "HRDEV",},
+            //    new UserRole { Id = "4", UserLogin = "Roman", _UserRole =  "SUPERUSER"}
+            //};
+            //return new ObjectResult(l);
+            //return new ObjectResult(Context.UserRoles.AsNoTracking());
+            return new ObjectResult(userRoles);
         }
 
         /// <summary>
@@ -183,19 +186,16 @@ namespace IO.Swagger.Controllers
         [SwaggerResponse(statusCode: 0, type: typeof(Error), description: "unexpected error")]
         public /*virtual*/ IActionResult UpdateUserRole([FromBody]UserRole body, [FromRoute][Required]string id)
         {
-            if (body.ToString() == null || body.Id != id)
+            var userRole = сontext.UserRoles.Where(ur => ur.Id == id).FirstOrDefault();
+            if (userRole == null)
             {
-                return BadRequest();
+                return StatusCode(400, body);
             }
-
-            var todo = Context.UserRoles.Find(id);
-            if (todo == null)
-            {
-                return NotFound();
-            }
-
-            Context.UserRoles.Update(body);
-            return StatusCode(200, body);
+            userRole._UserRole = body._UserRole;
+            userRole.UserLogin = body.UserLogin;
+            сontext.UserRoles.Update(userRole);
+            сontext.SaveChanges();
+            return StatusCode(200, userRole);
 
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...

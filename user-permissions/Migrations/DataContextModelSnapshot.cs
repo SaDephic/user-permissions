@@ -39,22 +39,22 @@ namespace user_permissions.Migrations
                         new
                         {
                             UserRole = "MANAGER",
-                            Permissions = new List<string> { "PERM_ABSENCE_MANAGER_READ", "PERM_HEALTHCHECK_MANAGER_READ", "PERM_MYDEPARTMENTS_MANAGER_READ" }
+                            Permissions = new List<string>()
                         },
                         new
                         {
                             UserRole = "HRPARTNER",
-                            Permissions = new List<string> { "PERM_ABSENCE_READ", "PERM_HEALTHCHECK_ADD", "PERM_MYDEPARTMENTS_READ" }
+                            Permissions = new List<string>()
                         },
                         new
                         {
                             UserRole = "HRDEV",
-                            Permissions = new List<string> { "PERM_ABSENCE_READ", "PERM_MYDEPARTMENTS_READ" }
+                            Permissions = new List<string>()
                         },
                         new
                         {
                             UserRole = "SUPERUSER",
-                            Permissions = new List<string> { "PERM_USER_ROLE_ADD", "PERM_ABSENCE_READ", "PERM_HEALTHCHECK_ADD", "PERM_MYDEPARTMENTS_READ" }
+                            Permissions = new List<string>()
                         });
                 });
 
@@ -74,32 +74,6 @@ namespace user_permissions.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "1",
-                            UserLogin = "Anna",
-                            _UserRole = "MANAGER"
-                        },
-                        new
-                        {
-                            Id = "2",
-                            UserLogin = "Denis",
-                            _UserRole = "HRPARTNER"
-                        },
-                        new
-                        {
-                            Id = "3",
-                            UserLogin = "Oleg",
-                            _UserRole = "HRDEV"
-                        },
-                        new
-                        {
-                            Id = "4",
-                            UserLogin = "Roman",
-                            _UserRole = "SUPERUSER"
-                        });
                 });
 #pragma warning restore 612, 618
         }

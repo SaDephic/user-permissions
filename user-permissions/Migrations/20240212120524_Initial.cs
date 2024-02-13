@@ -48,17 +48,6 @@ namespace user_permissions.Migrations
                     { "MANAGER", new List<string>() },
                     { "SUPERUSER", new List<string>() }
                 });
-
-            migrationBuilder.InsertData(
-                table: "UserRoles",
-                columns: new[] { "Id", "UserLogin", "_UserRole" },
-                values: new object[,]
-                {
-                    { "1", "Anna", "MANAGER" },
-                    { "2", "Denis", "HRPARTNER" },
-                    { "3", "Oleg", "HRDEV" },
-                    { "4", "Roman", "SUPERUSER" }
-                });
         }
 
         /// <inheritdoc />
