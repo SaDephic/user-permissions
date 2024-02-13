@@ -12,7 +12,7 @@ using user_permissions;
 namespace user_permissions.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240212120524_Initial")]
+    [Migration("20240213212004_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -41,23 +41,28 @@ namespace user_permissions.Migrations
                     b.HasData(
                         new
                         {
-                            UserRole = "MANAGER",
+                            UserRole = "EMPLOYEE",
                             Permissions = new List<string>()
+                        },
+                        new
+                        {
+                            UserRole = "MANAGER",
+                            Permissions = new List<string> { "PERM_ABSENCE_MANAGER_READ", "PERM_HEALTHCHECK_MANAGER_READ", "PERM_MYDEPARTMENTS_MANAGER_READ", "PERM_TASK_SUBJECT_MANAGER_ADD", "PERM_TASK_PERF_MANAGER_ADD", "PERM_TASK_WATCHER_ADD", "PERM_GOALS_MANAGER_READ", "PERM_ONBOARDING_MANAGER_READ", "PERM_EQUIPMENT_MANAGER_READ", "PERM_TRANSITIONS_MANAGER_READ" }
                         },
                         new
                         {
                             UserRole = "HRPARTNER",
-                            Permissions = new List<string>()
+                            Permissions = new List<string> { "PERM_ABSENCE_READ", "PERM_HEALTHCHECK_FULL", "PERM_MYDEPARTMENTS_READ", "PERM_GOALS_READ", "PERM_ONBOARDING_READ", "PERM_EQUIPMENT_READ", "PERM_TRANSITIONS_READ" }
                         },
                         new
                         {
                             UserRole = "HRDEV",
-                            Permissions = new List<string>()
+                            Permissions = new List<string> { "PERM_ABSENCE_READ", "PERM_MYDEPARTMENTS_READ", "PERM_GOALS_READ" }
                         },
                         new
                         {
                             UserRole = "SUPERUSER",
-                            Permissions = new List<string>()
+                            Permissions = new List<string> { "PERM_USER_ROLE_ADD", "PERM_ABSENCE_READ", "PERM_HEALTHCHECK_FULL", "PERM_MYDEPARTMENTS_READ", "PERM_TASK_FULL", "PERM_GOALS_READ", "PERM_ONBOARDING_READ", "PERM_EQUIPMENT_READ", "PERM_TRANSITIONS_READ" }
                         });
                 });
 
@@ -77,6 +82,38 @@ namespace user_permissions.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            UserLogin = "employee",
+                            _UserRole = "EMPLOYEE"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            UserLogin = "manager",
+                            _UserRole = "MANAGER"
+                        },
+                        new
+                        {
+                            Id = "3",
+                            UserLogin = "hrpartner",
+                            _UserRole = "HRPARTNER"
+                        },
+                        new
+                        {
+                            Id = "4",
+                            UserLogin = "hrdev",
+                            _UserRole = "HRDEV"
+                        },
+                        new
+                        {
+                            Id = "5",
+                            UserLogin = "superuser",
+                            _UserRole = "SUPERUSER"
+                        });
                 });
 #pragma warning restore 612, 618
         }
