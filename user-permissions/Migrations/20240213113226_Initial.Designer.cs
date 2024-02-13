@@ -12,7 +12,7 @@ using user_permissions;
 namespace user_permissions.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240212120524_Initial")]
+    [Migration("20240213113226_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -77,6 +77,32 @@ namespace user_permissions.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            UserLogin = "Anna",
+                            _UserRole = "MANAGER"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            UserLogin = "Denis",
+                            _UserRole = "HRPARTNER"
+                        },
+                        new
+                        {
+                            Id = "3",
+                            UserLogin = "Oleg",
+                            _UserRole = "HRDEV"
+                        },
+                        new
+                        {
+                            Id = "4",
+                            UserLogin = "Roman",
+                            _UserRole = "SUPERUSER"
+                        });
                 });
 #pragma warning restore 612, 618
         }

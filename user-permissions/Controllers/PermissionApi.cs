@@ -82,15 +82,15 @@ namespace IO.Swagger.Controllers
                         : default(UserPermissions);            //TODO: Change the data returned
             return new ObjectResult(example);*/
 
-            List<UserPermissions> l = new () {
+            /*List<UserPermissions> l = new () {
                 new UserPermissions { UserRole = "MANAGER", Permissions = new List<string> { "PERM_ABSENCE_MANAGER_READ", "PERM_HEALTHCHECK_MANAGER_READ", "PERM_MYDEPARTMENTS_MANAGER_READ" } },
                 new UserPermissions { UserRole = "HRPARTNER", Permissions = new List<string> { "PERM_ABSENCE_READ", "PERM_HEALTHCHECK_ADD", "PERM_MYDEPARTMENTS_READ" } },
                 new UserPermissions { UserRole = "HRDEV", Permissions = new List<string> { "PERM_ABSENCE_READ", "PERM_MYDEPARTMENTS_READ" } },
                 new UserPermissions { UserRole = "SUPERUSER", Permissions = new List<string> { "PERM_USER_ROLE_ADD", "PERM_ABSENCE_READ", "PERM_HEALTHCHECK_ADD", "PERM_MYDEPARTMENTS_READ" } }
             };
-            return new ObjectResult(l.Where(x => x.UserRole == body._UserRole).FirstOrDefault());
+            return new ObjectResult(l.Where(x => x.UserRole == body._UserRole).FirstOrDefault());*/
 
-            //return new ObjectResult(Context.Permissions.AsNoTracking());
+            return new ObjectResult(Context.Permissions.Where(x => x.UserRole == body._UserRole).FirstOrDefault());
         }
     }
 }

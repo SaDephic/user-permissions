@@ -52,7 +52,7 @@ namespace IO.Swagger.Controllers
         [SwaggerResponse(statusCode: 0, type: typeof(Error), description: "unexpected error")]
         public /*virtual*/ IActionResult AssignUserRole([FromBody]UserRole body)
         {
-            if (body.ToString() == null)
+            if (body == null)
             {
                 return StatusCode(400, default(Error));
             }
@@ -98,7 +98,7 @@ namespace IO.Swagger.Controllers
         [SwaggerResponse(statusCode: 0, type: typeof(Error), description: "unexpected error")]
         public /*virtual*/ IActionResult DeleteUserRole([FromRoute][Required]string id)
         {            
-            if (id.ToString() == null)
+            if (id == null)
             {
                 return StatusCode(400, default(Error));
             }
@@ -153,14 +153,15 @@ namespace IO.Swagger.Controllers
                         : default(List<UsersRoleList>);            //TODO: Change the data returned
             return new ObjectResult(example);*/
 
-            List<UserRole> l = new() {
+            /*List<UserRole> l = new() {
                 new UserRole { Id = "1", UserLogin = "Anna", _UserRole = "MANAGER"},
                 new UserRole { Id = "2", UserLogin = "Denis", _UserRole = "HRPARTNER",},
                 new UserRole { Id = "3", UserLogin = "Oleg", _UserRole =  "HRDEV",},
                 new UserRole { Id = "4", UserLogin = "Roman", _UserRole =  "SUPERUSER"}
             };
-            return new ObjectResult(l);
-            //return new ObjectResult(Context.UserRoles.AsNoTracking());
+            return new ObjectResult(l);*/
+
+            return new ObjectResult(Context.UserRoles.AsNoTracking());
         }
 
         /// <summary>
