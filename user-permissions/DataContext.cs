@@ -21,6 +21,12 @@ namespace user_permissions
                     new UserPermissions{UserRole = "HRDEV", Permissions = new List<string> {} },
                     new UserPermissions{UserRole = "SUPERUSER", Permissions = new List<string> {} }
             );
+            modelBuilder.Entity<UserRole>().HasData(
+                new UserRole { Id = "1", UserLogin = "Anna", _UserRole = "MANAGER"},
+                new UserRole { Id = "2", UserLogin = "Denis", _UserRole = "HRPARTNER",},
+                new UserRole { Id = "3", UserLogin = "Oleg", _UserRole =  "HRDEV",},
+                new UserRole { Id = "4", UserLogin = "Roman", _UserRole =  "SUPERUSER"}
+            );
         }
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
