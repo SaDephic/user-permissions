@@ -16,10 +16,10 @@ namespace user_permissions
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserPermissions>().HasData(
-                    new UserPermissions{UserRole = "MANAGER", Permissions = new List<string> {} },
-                    new UserPermissions{UserRole = "HRPARTNER", Permissions = new List<string> {} },
-                    new UserPermissions{UserRole = "HRDEV", Permissions = new List<string> {} },
-                    new UserPermissions{UserRole = "SUPERUSER", Permissions = new List<string> {} }
+                new UserPermissions { UserRole = "MANAGER", Permissions = new List<string> { "PERM_ABSENCE_MANAGER_READ", "PERM_HEALTHCHECK_MANAGER_READ", "PERM_MYDEPARTMENTS_MANAGER_READ" } },
+                new UserPermissions { UserRole = "HRPARTNER", Permissions = new List<string> { "PERM_ABSENCE_READ", "PERM_HEALTHCHECK_ADD", "PERM_MYDEPARTMENTS_READ" } },
+                new UserPermissions { UserRole = "HRDEV", Permissions = new List<string> { "PERM_ABSENCE_READ", "PERM_MYDEPARTMENTS_READ" } },
+                new UserPermissions { UserRole = "SUPERUSER", Permissions = new List<string> { "PERM_USER_ROLE_ADD", "PERM_ABSENCE_READ", "PERM_HEALTHCHECK_ADD", "PERM_MYDEPARTMENTS_READ" } }
             );
             modelBuilder.Entity<UserRole>().HasData(
                 new UserRole { Id = "1", UserLogin = "Anna", _UserRole = "MANAGER"},

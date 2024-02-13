@@ -100,7 +100,7 @@ namespace IO.Swagger.Controllers
             //};
             //return new ObjectResult(l.Where(x => x.UserRole == body._UserRole).FirstOrDefault());
 
-            //return new ObjectResult(Context.Permissions.AsNoTracking());
+            return new ObjectResult(Context.Permissions.Where(x => x.UserRole == body._UserRole).FirstOrDefault());
         }
     }
 }
