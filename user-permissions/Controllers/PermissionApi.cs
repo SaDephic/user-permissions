@@ -58,8 +58,27 @@ namespace IO.Swagger.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "Bad Request")]
         [SwaggerResponse(statusCode: 500, type: typeof(Error), description: "Internal Server Error")]
         [SwaggerResponse(statusCode: 0, type: typeof(Error), description: "unexpected error")]
-        public /*virtual*/ IActionResult GetUserPermissions([FromBody] UserRole body) //remove arg after add Bearer
+        public /*virtual*/ IActionResult GetUserPermissions(/* Remove body [now not exist AUTH] */[FromBody] UserRole body)
         {
+            /*List<UserPermissions> l = new () {
+                new UserPermissions { UserRole = "MANAGER", Permissions = new List<string> { "PERM_ABSENCE_MANAGER_READ", "PERM_HEALTHCHECK_MANAGER_READ", "PERM_MYDEPARTMENTS_MANAGER_READ" } },
+                new UserPermissions { UserRole = "HRPARTNER", Permissions = new List<string> { "PERM_ABSENCE_READ", "PERM_HEALTHCHECK_ADD", "PERM_MYDEPARTMENTS_READ" } },
+                new UserPermissions { UserRole = "HRDEV", Permissions = new List<string> { "PERM_ABSENCE_READ", "PERM_MYDEPARTMENTS_READ" } },
+                new UserPermissions { UserRole = "SUPERUSER", Permissions = new List<string> { "PERM_USER_ROLE_ADD", "PERM_ABSENCE_READ", "PERM_HEALTHCHECK_ADD", "PERM_MYDEPARTMENTS_READ" } }
+            };
+            return new ObjectResult(l.Where(x => x.UserRole == body._UserRole).FirstOrDefault());*/
+
+            var permission = context.Permissions
+                .Where(p => p.UserRole == body._UserRole)
+                .FirstOrDefault();
+
+            if (permission == null)
+            {
+                return NotFound();
+            }
+            return new ObjectResult(permission);
+
+
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(UserPermissions));
 
@@ -81,26 +100,6 @@ namespace IO.Swagger.Controllers
                         ? JsonConvert.DeserializeObject<UserPermissions>(exampleJson)
                         : default(UserPermissions);            //TODO: Change the data returned
             return new ObjectResult(example);*/
-
-            var permission =  context.Permissions
-                .Where(p => p.UserRole == body._UserRole)
-                .FirstOrDefault();
-
-            if (permission == null)
-            {
-                return NotFound();
-            }
-            return new ObjectResult(permission);
-
-            //List<UserPermissions> l = new () {
-            //    new UserPermissions { UserRole = "MANAGER", Permissions = new List<string> { "PERM_ABSENCE_MANAGER_READ", "PERM_HEALTHCHECK_MANAGER_READ", "PERM_MYDEPARTMENTS_MANAGER_READ" } },
-            //    new UserPermissions { UserRole = "HRPARTNER", Permissions = new List<string> { "PERM_ABSENCE_READ", "PERM_HEALTHCHECK_ADD", "PERM_MYDEPARTMENTS_READ" } },
-            //    new UserPermissions { UserRole = "HRDEV", Permissions = new List<string> { "PERM_ABSENCE_READ", "PERM_MYDEPARTMENTS_READ" } },
-            //    new UserPermissions { UserRole = "SUPERUSER", Permissions = new List<string> { "PERM_USER_ROLE_ADD", "PERM_ABSENCE_READ", "PERM_HEALTHCHECK_ADD", "PERM_MYDEPARTMENTS_READ" } }
-            //};
-            //return new ObjectResult(l.Where(x => x.UserRole == body._UserRole).FirstOrDefault());
-
-            return new ObjectResult(Context.Permissions.Where(x => x.UserRole == body._UserRole).FirstOrDefault());
         }
     }
 }

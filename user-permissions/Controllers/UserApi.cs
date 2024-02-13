@@ -33,7 +33,7 @@ namespace IO.Swagger.Controllers
         {
             this.сontext = dbContext;
         }
-        //? Безопасно
+
         private readonly DataContext сontext;
         /// <summary>
         /// Назначение роли сотруднику
@@ -43,6 +43,7 @@ namespace IO.Swagger.Controllers
         /// <response code="201">successfull operation</response>
         /// <response code="400">Bad Request</response>
         /// <response code="0">unexpected error</response>
+        
         [HttpPost]
         [Route("/usersRoles")]
         [ValidateModelState]
@@ -52,13 +53,19 @@ namespace IO.Swagger.Controllers
         [SwaggerResponse(statusCode: 0, type: typeof(Error), description: "unexpected error")]
         public /*virtual*/ IActionResult AssignUserRole([FromBody]UserRole body)
         {
-            var exisingRole = сontext.UserRoles.Where(ur => ur.Id == body.Id).FirstOrDefault();
+            //?
+            var exisingRole = сontext.UserRoles
+                .Where(ur => ur.Id == body.Id)
+                .FirstOrDefault();
+
             if (exisingRole != null)
             {
                 return StatusCode(400, default(Error));
             }
+
             сontext.UserRoles.Add(body);
             сontext.SaveChanges();
+
             return StatusCode(201, body);
 
             //TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -100,9 +107,11 @@ namespace IO.Swagger.Controllers
             {
                 return StatusCode(404, default(Error));
             }
+
             сontext.UserRoles.Remove(exisingRole);
             сontext.SaveChanges();
-            return StatusCode(204);
+
+            return StatusCode(204, default(Error));
 
             //TODO: Uncomment the next line to return response 204 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(204);
@@ -126,6 +135,7 @@ namespace IO.Swagger.Controllers
         /// <response code="200">Successful operation</response>
         /// <response code="400">Bad Request</response>
         /// <response code="0">unexpected error</response>
+        
         [HttpGet]
         [Route("/usersRoles")]
         [ValidateModelState]
@@ -135,6 +145,29 @@ namespace IO.Swagger.Controllers
         [SwaggerResponse(statusCode: 0, type: typeof(Error), description: "unexpected error")]
         public /*virtual*/ IActionResult GetUsersRoles()
         {
+            //1
+            /*List<UserRole> l = new() {
+                new UserRole { Id = "1", UserLogin = "Anna", _UserRole = "MANAGER"},
+                new UserRole { Id = "2", UserLogin = "Denis", _UserRole = "HRPARTNER",},
+                new UserRole { Id = "3", UserLogin = "Oleg", _UserRole =  "HRDEV",},
+                new UserRole { Id = "4", UserLogin = "Roman", _UserRole =  "SUPERUSER"}
+            };
+            return new ObjectResult(l);*/
+
+            //2
+            //return new ObjectResult(Context.UserRoles.AsNoTracking());
+
+            //?
+            var userRoles = new UsersRoleList
+            {
+                Data = сontext.UserRoles.Select(ur => ur).ToList()
+            };
+
+            if (userRoles == null)
+                return NotFound();
+
+            return StatusCode(200, new ObjectResult(userRoles));
+
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(List<UsersRoleList>));
 
@@ -150,21 +183,6 @@ namespace IO.Swagger.Controllers
                         ? JsonConvert.DeserializeObject<List<UsersRoleList>>(exampleJson)
                         : default(List<UsersRoleList>);            //TODO: Change the data returned
             return new ObjectResult(example);*/
-
-            var userRoles = new UsersRoleList
-            {
-                Data = сontext.UserRoles.Select(ur => ur).ToList()
-            };
-
-            //List<UserRole> l = new() {
-            //    new UserRole { Id = "1", UserLogin = "Anna", _UserRole = "MANAGER"},
-            //    new UserRole { Id = "2", UserLogin = "Denis", _UserRole = "HRPARTNER",},
-            //    new UserRole { Id = "3", UserLogin = "Oleg", _UserRole =  "HRDEV",},
-            //    new UserRole { Id = "4", UserLogin = "Roman", _UserRole =  "SUPERUSER"}
-            //};
-            //return new ObjectResult(l);
-            //return new ObjectResult(Context.UserRoles.AsNoTracking());
-            return new ObjectResult(userRoles);
         }
 
         /// <summary>
@@ -177,6 +195,7 @@ namespace IO.Swagger.Controllers
         /// <response code="400">Bad Request</response>
         /// <response code="404">Not found</response>
         /// <response code="0">unexpected error</response>
+        
         [HttpPut]
         [Route("/usersRoles/{id}")]
         [ValidateModelState]
@@ -186,17 +205,23 @@ namespace IO.Swagger.Controllers
         [SwaggerResponse(statusCode: 0, type: typeof(Error), description: "unexpected error")]
         public /*virtual*/ IActionResult UpdateUserRole([FromBody]UserRole body, [FromRoute][Required]string id)
         {
-            var userRole = сontext.UserRoles.Where(ur => ur.Id == id).FirstOrDefault();
+            var userRole = сontext.UserRoles
+                .Where(ur => ur.Id == id)
+                .FirstOrDefault();
+
             if (userRole == null)
             {
                 return StatusCode(400, body);
             }
+
+            //?
             userRole._UserRole = body._UserRole;
             userRole.UserLogin = body.UserLogin;
+
             сontext.UserRoles.Update(userRole);
             сontext.SaveChanges();
-            return StatusCode(200, userRole);
 
+            return StatusCode(200, userRole);
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(UserRole));
