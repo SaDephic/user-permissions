@@ -34,6 +34,33 @@ namespace user_permissions.Migrations
                     b.HasKey("UserRole");
 
                     b.ToTable("Permissions");
+
+                    b.HasData(
+                        new
+                        {
+                            UserRole = "employee",
+                            Permissions = new List<string>()
+                        },
+                        new
+                        {
+                            UserRole = "manager",
+                            Permissions = new List<string> { "PERM_ABSENCE_MANAGER_READ", "PERM_HEALTHCHECK_MANAGER_READ", "PERM_MYDEPARTMENTS_MANAGER_READ", "PERM_TASK_SUBJECT_MANAGER_ADD", "PERM_TASK_PERF_MANAGER_ADD", "PERM_TASK_WATCHER_ADD", "PERM_GOALS_MANAGER_READ", "PERM_ONBOARDING_MANAGER_READ", "PERM_EQUIPMENT_MANAGER_READ", "PERM_TRANSITIONS_MANAGER_READ" }
+                        },
+                        new
+                        {
+                            UserRole = "hrpartner",
+                            Permissions = new List<string> { "PERM_ABSENCE_READ", "PERM_HEALTHCHECK_FULL", "PERM_MYDEPARTMENTS_READ", "PERM_GOALS_READ", "PERM_ONBOARDING_READ", "PERM_EQUIPMENT_READ", "PERM_TRANSITIONS_READ" }
+                        },
+                        new
+                        {
+                            UserRole = "hrdev",
+                            Permissions = new List<string> { "PERM_ABSENCE_READ", "PERM_MYDEPARTMENTS_READ", "PERM_GOALS_READ" }
+                        },
+                        new
+                        {
+                            UserRole = "superuser",
+                            Permissions = new List<string> { "PERM_USER_ROLE_ADD", "PERM_ABSENCE_READ", "PERM_HEALTHCHECK_FULL", "PERM_MYDEPARTMENTS_READ", "PERM_TASK_FULL", "PERM_GOALS_READ", "PERM_ONBOARDING_READ", "PERM_EQUIPMENT_READ", "PERM_TRANSITIONS_READ" }
+                        });
                 });
 
             modelBuilder.Entity("IO.Swagger.Models.UserRole", b =>
@@ -52,6 +79,146 @@ namespace user_permissions.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "3000",
+                            UserLogin = "djaz",
+                            _UserRole = "superuser"
+                        },
+                        new
+                        {
+                            Id = "3001",
+                            UserLogin = "kazurus",
+                            _UserRole = "manager"
+                        },
+                        new
+                        {
+                            Id = "3002",
+                            UserLogin = "nomad",
+                            _UserRole = "employee"
+                        },
+                        new
+                        {
+                            Id = "1",
+                            UserLogin = "etna",
+                            _UserRole = "hrdev"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            UserLogin = "manager",
+                            _UserRole = "manager"
+                        },
+                        new
+                        {
+                            Id = "3",
+                            UserLogin = "kortex",
+                            _UserRole = "employee"
+                        },
+                        new
+                        {
+                            Id = "4",
+                            UserLogin = "b3n",
+                            _UserRole = "employee"
+                        },
+                        new
+                        {
+                            Id = "5",
+                            UserLogin = "sempai",
+                            _UserRole = "hrpartner"
+                        },
+                        new
+                        {
+                            Id = "6",
+                            UserLogin = "kojima",
+                            _UserRole = "employee"
+                        },
+                        new
+                        {
+                            Id = "7",
+                            UserLogin = "asimar",
+                            _UserRole = "hrpartner"
+                        },
+                        new
+                        {
+                            Id = "8",
+                            UserLogin = "invasion",
+                            _UserRole = "employee"
+                        },
+                        new
+                        {
+                            Id = "9",
+                            UserLogin = "holix",
+                            _UserRole = "manager"
+                        },
+                        new
+                        {
+                            Id = "10",
+                            UserLogin = "alius29",
+                            _UserRole = "employee"
+                        },
+                        new
+                        {
+                            Id = "11",
+                            UserLogin = "nymeria",
+                            _UserRole = "employee"
+                        },
+                        new
+                        {
+                            Id = "12",
+                            UserLogin = "wezen",
+                            _UserRole = "hrpartner"
+                        },
+                        new
+                        {
+                            Id = "13",
+                            UserLogin = "oqaris",
+                            _UserRole = "hrpartner"
+                        },
+                        new
+                        {
+                            Id = "14",
+                            UserLogin = "kurs",
+                            _UserRole = "hrpartner"
+                        },
+                        new
+                        {
+                            Id = "15",
+                            UserLogin = "gigachad",
+                            _UserRole = "manager"
+                        },
+                        new
+                        {
+                            Id = "16",
+                            UserLogin = "frogmonarch",
+                            _UserRole = "hrpartner"
+                        },
+                        new
+                        {
+                            Id = "17",
+                            UserLogin = "fox",
+                            _UserRole = "employee"
+                        },
+                        new
+                        {
+                            Id = "18",
+                            UserLogin = "distortion",
+                            _UserRole = "employee"
+                        },
+                        new
+                        {
+                            Id = "19",
+                            UserLogin = "degree",
+                            _UserRole = "manager"
+                        },
+                        new
+                        {
+                            Id = "20",
+                            UserLogin = "resolute",
+                            _UserRole = "hrpartner"
+                        });
                 });
 #pragma warning restore 612, 618
         }

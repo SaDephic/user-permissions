@@ -12,7 +12,7 @@ using user_permissions;
 namespace user_permissions.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240214162324_initial")]
+    [Migration("20240214180659_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -106,43 +106,43 @@ namespace user_permissions.Migrations
                         {
                             Id = "1",
                             UserLogin = "etna",
-                            _UserRole = "hrpartner"
+                            _UserRole = "hrdev"
                         },
                         new
                         {
                             Id = "2",
                             UserLogin = "manager",
-                            _UserRole = "employee"
+                            _UserRole = "manager"
                         },
                         new
                         {
                             Id = "3",
                             UserLogin = "kortex",
-                            _UserRole = "manager"
+                            _UserRole = "employee"
                         },
                         new
                         {
                             Id = "4",
                             UserLogin = "b3n",
-                            _UserRole = "manager"
+                            _UserRole = "employee"
                         },
                         new
                         {
                             Id = "5",
                             UserLogin = "sempai",
-                            _UserRole = "hrdev"
+                            _UserRole = "hrpartner"
                         },
                         new
                         {
                             Id = "6",
                             UserLogin = "kojima",
-                            _UserRole = "hrpartner"
+                            _UserRole = "employee"
                         },
                         new
                         {
                             Id = "7",
                             UserLogin = "asimar",
-                            _UserRole = "employee"
+                            _UserRole = "hrpartner"
                         },
                         new
                         {
@@ -154,7 +154,7 @@ namespace user_permissions.Migrations
                         {
                             Id = "9",
                             UserLogin = "holix",
-                            _UserRole = "employee"
+                            _UserRole = "manager"
                         },
                         new
                         {
@@ -166,61 +166,61 @@ namespace user_permissions.Migrations
                         {
                             Id = "11",
                             UserLogin = "nymeria",
-                            _UserRole = "hrpartner"
+                            _UserRole = "employee"
                         },
                         new
                         {
                             Id = "12",
                             UserLogin = "wezen",
-                            _UserRole = "manager"
+                            _UserRole = "hrpartner"
                         },
                         new
                         {
                             Id = "13",
                             UserLogin = "oqaris",
-                            _UserRole = "employee"
+                            _UserRole = "hrpartner"
                         },
                         new
                         {
                             Id = "14",
                             UserLogin = "kurs",
-                            _UserRole = "employee"
+                            _UserRole = "hrpartner"
                         },
                         new
                         {
                             Id = "15",
                             UserLogin = "gigachad",
-                            _UserRole = "employee"
+                            _UserRole = "manager"
                         },
                         new
                         {
                             Id = "16",
                             UserLogin = "frogmonarch",
-                            _UserRole = "hrdev"
+                            _UserRole = "hrpartner"
                         },
                         new
                         {
                             Id = "17",
                             UserLogin = "fox",
-                            _UserRole = "hrpartner"
+                            _UserRole = "employee"
                         },
                         new
                         {
                             Id = "18",
                             UserLogin = "distortion",
-                            _UserRole = "hrpartner"
+                            _UserRole = "employee"
                         },
                         new
                         {
                             Id = "19",
                             UserLogin = "degree",
-                            _UserRole = "employee"
+                            _UserRole = "manager"
                         },
                         new
                         {
                             Id = "20",
                             UserLogin = "resolute",
-                            _UserRole = "manager"
+                            _UserRole = "hrpartner"
                         });
                 });
 #pragma warning restore 612, 618
