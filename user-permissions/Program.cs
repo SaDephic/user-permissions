@@ -1,9 +1,15 @@
 using IO.Swagger.Models;
 using IO.Swagger.Security;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
+using System.Text;
 using user_permissions;
 using user_permissions.Custom;
 
@@ -21,21 +27,15 @@ builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(builder.
         x => x.MigrationsHistoryTable("__user_permissions_efmigrationshistory", "public")
     ));
 
-//???
-//builder.Services.AddAuthentication(BearerAuthenticationHandler.SchemeName);
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-
-    //parse table user-permission https://docs.google.com/document/d/18PbWWj57ERwNVOLKRe0RZb46ws7IxuYrOqmEJcIRgOg/edit#heading=h.w3lo0zm8p1l4
-    //new PermFromXML(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\Permissions\\permission_table.html");
 }
 
-app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 

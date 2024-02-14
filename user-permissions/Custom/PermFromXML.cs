@@ -1,18 +1,43 @@
-﻿using System.Runtime.Serialization;
-using System.Xml;
-using IO.Swagger.Models;
+﻿using IO.Swagger.Models;
 using NuGet.Protocol;
+using System.Xml;
+using System.Text.Json;
+using Newtonsoft.Json;
+
+public class Departament
+{
+    public string departmentId { get; set; }
+    public string code { get; set; }
+    public string name { get; set; }
+    public string manager { get; set; }
+
+}
+public class Person
+{
+    public string nickName { get; set; }
+    public Departament department { get; set; }
+    public string name { get; set; }
+    public string jobPosition { get; set; }
+    public string city { get; set; }
+    public string state { get; set; }
+}
 
 namespace user_permissions.Custom
 {
     public class PermFromXML
-    {  
-        List<UserPermissions> permissions = new List<UserPermissions>();//all permission model 
-        List<UserRole> roles = new List<UserRole>();//model role with name lower()
+    {
+        public List<UserPermissions> permissions = new List<UserPermissions>();//all permission model 
+        public List<UserRole> roles = new List<UserRole>();//model role with name lower()
 
-        public PermFromXML(string file) {
+        public PermFromXML()
+        {
+            string missions = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\Permissions\\permission_table.html";
+            string pers = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\Permissions\\person.json";
+
+            List<string> allroles = new List<string>();
+
             var doc = new XmlDocument();
-            doc.Load(file);
+            doc.Load(missions);
             //read roles and permissions
             foreach (XmlElement n0 in doc.ChildNodes)
             {
@@ -20,7 +45,7 @@ namespace user_permissions.Custom
                 {
                     if (n1.Name == "div")
                     {
-                        foreach (XmlElement n2 in n1.ChildNodes) 
+                        foreach (XmlElement n2 in n1.ChildNodes)
                         {
                             if (n2.Name == "table")
                             {
@@ -33,7 +58,7 @@ namespace user_permissions.Custom
                                             if (n4.Name == "tr")
                                             {
                                                 //roles
-                                                if (roles.Count == 0)
+                                                if (allroles.Count == 0)
                                                 {
                                                     foreach (XmlElement n5 in n4.ChildNodes)
                                                     {
@@ -42,15 +67,16 @@ namespace user_permissions.Custom
                                                         {
                                                             if (ptxt == ptxt.ToUpper())
                                                             {
-                                                                UserRole rol = new();
-                                                                rol.Id = (roles.Count+1).ToString();
+                                                                /*UserRole rol = new UserRole();
+                                                                rol.Id = (roles.Count + 1).ToString();
                                                                 rol.UserLogin = ptxt.ToLower();
-                                                                rol._UserRole = ptxt;
-                                                                roles.Add(rol);
+                                                                rol._UserRole = ptxt.ToLower();
+                                                                roles.Add(rol);*/
+                                                                allroles.Add(ptxt.ToLower());
 
-                                                                UserPermissions perm = new();
-                                                                perm.UserRole = ptxt;
-                                                                perm.Permissions = new ();
+                                                                UserPermissions perm = new UserPermissions();
+                                                                perm.UserRole = ptxt.ToLower();
+                                                                perm.Permissions = new List<string>();
                                                                 permissions.Add(perm);
                                                             }
                                                         }
@@ -61,30 +87,31 @@ namespace user_permissions.Custom
                                                 if (n4.ChildNodes.Count > 8)
                                                 {
                                                     string ptxt = n4.ChildNodes.Item(1).InnerText;
-                                                    if (!string.IsNullOrEmpty(ptxt)) {
+                                                    if (!string.IsNullOrEmpty(ptxt))
+                                                    {
                                                         if (ptxt == ptxt.ToUpper())
                                                         {
                                                             //разбор прав
                                                             //2-6                                      
                                                             if (!string.IsNullOrEmpty(n4.ChildNodes.Item(3).InnerText))
                                                             {
-                                                                permissions.FirstOrDefault(p => p.UserRole == roles[0]._UserRole).Permissions.Add(ptxt);
+                                                                permissions[0].Permissions.Add(ptxt);
                                                             }
                                                             if (!string.IsNullOrEmpty(n4.ChildNodes.Item(4).InnerText))
                                                             {
-                                                                permissions.FirstOrDefault(p => p.UserRole == roles[1]._UserRole).Permissions.Add(ptxt);
+                                                                permissions[1].Permissions.Add(ptxt);
                                                             }
                                                             if (!string.IsNullOrEmpty(n4.ChildNodes.Item(5).InnerText))
                                                             {
-                                                                permissions.FirstOrDefault(p => p.UserRole == roles[2]._UserRole).Permissions.Add(ptxt);
+                                                                permissions[2].Permissions.Add(ptxt);
                                                             }
                                                             if (!string.IsNullOrEmpty(n4.ChildNodes.Item(6).InnerText))
                                                             {
-                                                                permissions.FirstOrDefault(p => p.UserRole == roles[3]._UserRole).Permissions.Add(ptxt);
+                                                                permissions[3].Permissions.Add(ptxt);
                                                             }
                                                             if (!string.IsNullOrEmpty(n4.ChildNodes.Item(7).InnerText))
                                                             {
-                                                                permissions.FirstOrDefault(p => p.UserRole == roles[4]._UserRole).Permissions.Add(ptxt);
+                                                                permissions[4].Permissions.Add(ptxt);
                                                             }
                                                         }
                                                     }
@@ -104,10 +131,44 @@ namespace user_permissions.Custom
             {
                 outputFile.Write(permissions.ToJson());
             }
+            /*using (StreamWriter outputFile = new StreamWriter(Path.Combine(permissions.ToJson(), Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\Permissions\\roles.json")))
+            {
+                outputFile.Write(roles.ToJson());
+            }*/
+
+            //person
+            List<Person> persons = new List<Person>();
+            using (StreamReader reader = new StreamReader(pers))
+            {
+                string json = reader.ReadToEnd();
+                persons = JsonConvert.DeserializeObject<List<Person>>(json);
+            }
+            
+            roles.Add(new UserRole() { Id = "3000", UserLogin = "djaz", _UserRole = "superuser" });
+            roles.Add(new UserRole() { Id = "3001", UserLogin = "kazurus", _UserRole = "manager" });
+            roles.Add(new UserRole() { Id = "3002", UserLogin = "nomad", _UserRole = "employee" });
+
+            int i = 1;
+
+            List<string> ex = new List<string>{"djaz", "kazurus", "nomad"};
+            foreach (Person per in persons) 
+            {
+                if (!ex.Contains(per.nickName.ToLower()))
+                {
+                    UserRole role = new UserRole();
+                    role.Id = i.ToString();
+                    role.UserLogin = per.nickName.ToLower();
+                    role._UserRole = allroles[new Random().Next(0, 4)];
+                    roles.Add(role);
+                    i++;
+                }
+            }
+
             using (StreamWriter outputFile = new StreamWriter(Path.Combine(permissions.ToJson(), Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\Permissions\\roles.json")))
             {
                 outputFile.Write(roles.ToJson());
             }
+
         }
     }
 }

@@ -10,23 +10,13 @@ using Microsoft.Extensions.Options;
 
 namespace IO.Swagger.Security
 {
-    /// <summary>
-    /// class to handle bearer authentication.
-    /// </summary>
     public class BearerAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
-        /// <summary>
-        /// scheme name for authentication handler.
-        /// </summary>
         public const string SchemeName = "Bearer";
 
         public BearerAuthenticationHandler(IOptionsMonitor<AuthenticationSchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) : base(options, logger, encoder, clock)
         {
         }
-
-        /// <summary>
-        /// verify that require authorization header exists.
-        /// </summary>
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             if (!Request.Headers.ContainsKey("Authorization"))
