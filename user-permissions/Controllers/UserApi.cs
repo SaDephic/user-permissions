@@ -9,6 +9,7 @@
  */
 using IO.Swagger.Attributes;
 using IO.Swagger.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
@@ -26,7 +27,8 @@ namespace IO.Swagger.Controllers
         }
 
         private readonly DataContext сontext;
-                
+
+        [EnableCors("APIPolicy")]
         [HttpGet]
         [Route("/usersRoles")]
         [ValidateModelState]
@@ -47,7 +49,8 @@ namespace IO.Swagger.Controllers
 
             return StatusCode(200, new ObjectResult(userRoles));
         }
-                
+
+        [EnableCors("APIPolicy")]
         [HttpPost]
         [Route("/usersRoles")]
         [ValidateModelState]
@@ -76,6 +79,7 @@ namespace IO.Swagger.Controllers
             return StatusCode(201, body);
         }
 
+        [EnableCors("APIPolicy")]
         [HttpDelete]
         [Route("/usersRoles/{id}")]
         [ValidateModelState]
@@ -96,7 +100,8 @@ namespace IO.Swagger.Controllers
 
             return StatusCode(204, default(Error));            
         }
-                       
+
+        [EnableCors("APIPolicy")]
         [HttpPut]
         [Route("/usersRoles/{id}")]
         [ValidateModelState]

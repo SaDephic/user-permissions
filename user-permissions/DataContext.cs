@@ -14,6 +14,7 @@ namespace user_permissions
         public DataContext(DbContextOptions<DataContext> options)
             :base(options)
         {
+            Database.EnsureCreated();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -9,6 +9,7 @@
  */
 using IO.Swagger.Attributes;
 using IO.Swagger.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.IdentityModel.Tokens.Jwt;
@@ -41,6 +42,7 @@ namespace IO.Swagger.Controllers
             return jwt.Substring("Bearer ".Length);
         }
 
+        [EnableCors("APIPolicy")]
         [HttpGet]
         [Route("/permissions")]
         //[Authorize(AuthenticationSchemes = BearerAuthenticationHandler.SchemeName)]
