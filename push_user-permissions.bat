@@ -28,33 +28,43 @@ cd .\user-permissions
 
 if "%~1"=="" (echo ВНИМАНИЕ! Укажите версию сборки & goto end)
 
-::Проверка версии
+echo Проверка версии
 echo current %1
 pause
 
 echo Сборка артефактов
 cmd /c docker build -f ".\user-permissions\Dockerfile" --force-rm -t user-permissions:%1 --build-arg "BUILD_CONFIGURATION=Release" "."
 
-echo Данные авторизации
-echo https://repo.gba.ls-dev.ru/#browse/browse:chr-tmp
+echo Соединение с хранилищем артефактов куда будем отправлять наш докер образ
 echo docker login chr-dev.gba.ls-dev.ru
-echo chr-dev
-echo Yohyai7phee3maiYaB0nahGh
+echo УЗ chr-dev
+echo Пароль Yohyai7phee3maiYaB0nahGh
+echo https://repo.gba.ls-dev.ru/#browse/browse:chr-tmp
 
 echo tag версии
 cmd /c docker tag user-permissions:%1 chr-dev.gba.ls-dev.ru/user-permissions:%1
 
-echo отправка на сервер
+echo Отправка собранного образа из локального хранилища в удаленное (chr-dev.gba.ls-dev.ru)
 cmd /c docker push chr-dev.gba.ls-dev.ru/user-permissions:%1
 
 echo Указать переменную отправки и выполнить раскатывание при помощи helm указав в качестве тега необходимую версию
-echo OLD: cmd /c ${env:KUBECONFIG} = "${home}\.kube\kubeconfig-dev01-user-permissions.yaml" && helm upgrade -n default --install user-permissions helm -f helm/values-dev.yaml --set image.tag=%1
- 
-echo
+echo "--------------------"
+echo          OLD
+echo "--------------------"
+echo $env:KUBECONFIG = "$home\.kube\kubeconfig-dev01-user-permissions.yaml"
+echo helm upgrade -n default --install user-permissions helm -f helm/values-dev.yaml --set image.tag=%1
+echo "--------------------"
 echo ! ВЫПОЛНИТЬ ВРУЧНУЮ !
+echo "--------------------"
+echo Передать переменную (на какой кластер Kubernetes смотрим/работаем)
+echo $env:KUBECONFIG = "$home\.kube\kubeconfig-dev01-user-permissions.yaml"
+echo Выполнить раскатывание при помощи helm указав в качестве тега необходимую версию
+echo helm upgrade -n default --install user-permissions helm -f helm/values-dev.yaml --set image.tag=%1 --set envFrom=envfile_up.env
+echo "--------------------"
+
 echo
-$env:KUBECONFIG = "$home\.kube\kubeconfig-dev01-user-permissions.yaml"
-helm upgrade -n default --install user-permissions helm -f helm/values-dev.yaml --set image.tag=%1 --set envFrom=envfile_up.env
+echo Проверить что в Kubernetes поднялся наш артефакт.
+echo kubectl get po
 echo
 
 ::Загрузить в конфигурацию кубера набор переменных
@@ -63,4 +73,4 @@ echo
 
 :end
 echo Вернулся в исходное положение
-cd ..w
+cd ..
