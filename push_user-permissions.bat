@@ -48,8 +48,8 @@ echo отправка на сервер
 cmd /c docker push chr-dev.gba.ls-dev.ru/user-permissions:%1
 
 echo Указать переменную отправки и выполнить раскатывание при помощи helm указав в качестве тега необходимую версию
-echo OLD: cmd /c ${env:KUBECONFIG} = "$home\.kube\kubeconfig-dev01-user-permissions.yaml" && helm upgrade -n default --install user-permissions helm -f helm/values-dev.yaml --set image.tag=%1
-cmd /c ${env:KUBECONFIG} = "$home\.kube\kubeconfig-dev01-user-permissions.yaml" && helm upgrade -n default --install user-permissions helm -f helm/values-dev.yaml --set image.tag=%1 --set envFrom=envfile_up.env
+echo OLD: cmd /c ${env:KUBECONFIG} = "${home}\.kube\kubeconfig-dev01-user-permissions.yaml" && helm upgrade -n default --install user-permissions helm -f helm/values-dev.yaml --set image.tag=%1
+cmd /c ${env:KUBECONFIG} = "${home}\.kube\kubeconfig-dev01-user-permissions.yaml" && helm upgrade -n default --install user-permissions helm -f helm/values-dev.yaml --set image.tag=%1 --set envFrom=envfile_up.env
 
 ::Загрузить в конфигурацию кубера набор переменных
 ::kubectl create configmap user-permissions-env-configmap -n default
