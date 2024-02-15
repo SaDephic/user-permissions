@@ -7,3 +7,5 @@ docker build -f ".\user-permissions\Dockerfile" --force-rm -t user-permissions:1
 
 GET: {host}/permissions << 
 {"userRole":"userRole","permissions":["permissions","permissions"]}
+
+Модель < UserLogin - UserRole > 1.0.31 1к1
